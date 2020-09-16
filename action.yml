@@ -1,0 +1,19 @@
+name: 'Pull Request Comment Action'
+description: 'Invole commands with comments on pull request'
+author: 'sqren'
+branding:
+  icon: upload-cloud
+  color: green
+inputs:
+  access_token:
+    description: 'GITHUB_TOKEN or a `repo` scoped Personal Access Token'
+    default: ${{ github.token }}
+  comment:
+    description: 'The comment to trigger the command'
+    required: true
+  cmd:
+    description: 'The command that will be executed'
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
