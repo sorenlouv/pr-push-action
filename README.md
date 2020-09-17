@@ -5,8 +5,6 @@ Workflow
 ```yml
 name: Pull Request Comment Action
 on:
-  pull_request:
-    types: [opened]
   issue_comment:
     types: [created]
     
