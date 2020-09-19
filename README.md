@@ -1,13 +1,15 @@
 # pr-push-action
+
 Run a command on a PR that causes to update. The change is then committed.
 
 Workflow
+
 ```yml
 name: Pull Request Comment Action
 on:
   issue_comment:
     types: [created]
-    
+
 jobs:
   bump:
     name: Pull Request Comment
@@ -16,7 +18,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: sqren/pr-push-action@v1
         with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}        
-          comment: "please bump"
-          cmd: yarn bump
-```          
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          comment: 'please bump'
+          command: yarn bump
+```

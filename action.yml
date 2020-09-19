@@ -11,7 +11,7 @@ inputs:
   comment:
     description: 'The comment to trigger the command'
     required: true
-  cmd:
+  command:
     description: 'The command that will be executed'
     required: true
 runs:
