@@ -24,7 +24,7 @@ async function init() {
     command: core.getInput('command', { required: true }),
   };
 
-  console.log(payload, inputs);
+  console.log(JSON.stringify(payload), inputs);
 
   core.setOutput('lolz', 'hey');
 }

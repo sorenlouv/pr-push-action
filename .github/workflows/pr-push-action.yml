@@ -14,3 +14,8 @@ jobs:
           access_token: ${{ secrets.GITHUB_TOKEN }}
           comment: 'please bump'
           command: yarn bump
+      - uses: sqren/pr-push-action@v1
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+          comment: 'please yoyo'
+          command: yarn yolo
