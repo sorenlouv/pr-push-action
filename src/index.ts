@@ -10,13 +10,8 @@ export type Inputs = {
 };
 
 async function init() {
-  const payload = context.payload as EventPayloads.WebhookPayloadPullRequest;
+  const payload = context.payload as EventPayloads.WebhookPayloadIssueComment;
   const { actor } = context;
-
-  await exec(`git config --global user.name "${actor}"`);
-  await exec(
-    `git config --global user.email "github-action-${actor}@users.noreply.github.com"`
-  );
 
   const inputs: Inputs = {
     accessToken: core.getInput('access_token', { required: true }),
@@ -24,9 +19,19 @@ async function init() {
     command: core.getInput('command', { required: true }),
   };
 
-  console.log(JSON.stringify(payload), inputs);
+  if (payload.comment.body !== inputs.comment) {
+    console.log('Aborting. Not relevant comment');
+    return;
+  }
 
-  core.setOutput('lolz', 'hey');
+  await exec(`git config --global user.name "${actor}"`);
+  await exec(
+    `git config --global user.email "github-action-${actor}@users.noreply.github.com"`
+  );
+
+  await exec(inputs.command);
+
+  console.log(JSON.stringify(payload), inputs);
 }
 
 init().catch((error) => {

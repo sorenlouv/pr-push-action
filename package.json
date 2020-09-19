@@ -1,6 +1,6 @@
 {
   "name": "pr-push-action",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "files": [
     "action.yml",
@@ -9,6 +9,8 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "ncc build src/index.ts --minify --v8-cache",
+    "yolo": "echo 'YOLOOOOOO!' > bump.txt",
+    "bump": "echo $(date -u) > bump.txt",
     "test": "jest"
   },
   "devDependencies": {
