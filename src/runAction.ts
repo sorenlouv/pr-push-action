@@ -40,6 +40,8 @@ export async function runAction(
     branchName,
     `https://x-access-token:${inputs.accessToken}@github.com/${repoOwner}/${repoName}.git`,
   ]);
+
+  await exec('cd', [repoName]);
   await exec(cmd, cmdArgs);
   await exec('git', ['add', '-u']);
   await exec('git', ['commit', '-m', `Result of "${inputs.command}"`]);
