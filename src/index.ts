@@ -30,7 +30,9 @@ async function init() {
   );
 
   await exec(inputs.command);
-
+  await exec('git add -u');
+  await exec(`git commit -m "Result of \"${inputs.command}\""`);
+  await exec('git push');
   console.log(JSON.stringify(payload), inputs);
 }
 
