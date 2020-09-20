@@ -4,12 +4,14 @@ import { context } from '@actions/github';
 import { EventPayloads } from '@octokit/webhooks';
 
 export type Inputs = {
+  accessToken: string;
   comment: string;
   command: string;
 };
 
 const payload = context.payload as EventPayloads.WebhookPayloadIssueComment;
 const inputs: Inputs = {
+  accessToken: core.getInput('access_token', { required: true }),
   comment: core.getInput('comment', { required: true }),
   command: core.getInput('command', { required: true }),
 };

@@ -13,10 +13,12 @@ export async function runAction(
     return;
   }
 
+  const repoOwner = payload.repository.owner.login;
+  const repoName = payload.repository.name;
   const octokit = new Octokit();
   const pullRequest = await octokit.pulls.get({
-    owner: payload.repository.owner.login,
-    repo: payload.repository.name,
+    owner: repoOwner,
+    repo: repoName,
     pull_number: payload.issue.number,
   });
 
@@ -28,6 +30,16 @@ export async function runAction(
 
   await exec('git', ['config', 'user.name', 'github-actions']);
   await exec('git', ['config', 'user.email', 'github-actions@github.com']);
+
+  await exec('git', [
+    'clone',
+    '--depth',
+    '1',
+    '--single-branch',
+    '--branch',
+    branchName,
+    `https://x-access-token:${inputs.accessToken}@github.com/${repoOwner}/${repoName}.git`,
+  ]);
   await exec(cmd, cmdArgs);
   await exec('git', ['add', '-u']);
   await exec('git', ['commit', '-m', `Result of "${inputs.command}"`]);
