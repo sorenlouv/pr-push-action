@@ -38,13 +38,18 @@ export async function runAction(
     `https://x-access-token:${inputs.accessToken}@github.com/${repoOwner}/${repoName}.git`,
   ]);
 
-  await exec('cd', [repoName]);
+  const repoPath = `${process.cwd()}/${repoName}`;
+  const opts = { cwd: repoPath };
 
-  await exec('git', ['config', 'user.name', 'github-actions']);
-  await exec('git', ['config', 'user.email', 'github-actions@github.com']);
+  await exec('git', ['config', 'user.name', 'github-actions'], opts);
+  await exec(
+    'git',
+    ['config', 'user.email', 'github-actions@github.com'],
+    opts
+  );
 
-  await exec(cmd, cmdArgs);
+  await exec(cmd, cmdArgs, opts);
   await exec('git', ['add', '-u']);
-  await exec('git', ['commit', '-m', `Result of "${inputs.command}"`]);
-  await exec('git', ['push', 'origin', branchName]);
+  await exec('git', ['commit', '-m', `Result of "${inputs.command}"`], opts);
+  await exec('git', ['push', 'origin', branchName], opts);
 }
