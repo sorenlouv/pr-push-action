@@ -28,8 +28,19 @@ export async function runAction(
   const [cmd, ...cmdArgs] = stringArgv(inputs.command);
   console.log('Command: ', { cmd, cmdArgs });
 
-  const repoPath = `${process.cwd()}/${repoName}`;
+  const repoPath = process.env.GITHUB_WORKSPACE;
   const opts = { cwd: repoPath };
+  const listeners = {
+    stdout: (data: Buffer) => {
+      console.log(data.toString());
+    },
+    stderr: (data: Buffer) => {
+      console.log(data.toString());
+    },
+  };
+
+  await exec('ls', ['-al'], { cwd: repoPath, listeners });
+  await exec('pwd', [], { cwd: repoPath, listeners });
 
   await exec(
     'git',
@@ -54,29 +65,6 @@ export async function runAction(
     ['config', 'user.email', 'github-actions@github.com'],
     opts
   );
-
-  await exec('ls', ['-al'], {
-    cwd: repoPath,
-    listeners: {
-      stdout: (data: Buffer) => {
-        console.log(data.toString());
-      },
-      stderr: (data: Buffer) => {
-        console.log(data.toString());
-      },
-    },
-  });
-  await exec('pwd', [], {
-    cwd: repoPath,
-    listeners: {
-      stdout: (data: Buffer) => {
-        console.log(data.toString());
-      },
-      stderr: (data: Buffer) => {
-        console.log(data.toString());
-      },
-    },
-  });
 
   await exec(cmd, cmdArgs, opts);
   await exec('git', ['add', '-u']);
