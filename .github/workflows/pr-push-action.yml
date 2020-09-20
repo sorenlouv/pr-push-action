@@ -7,15 +7,14 @@ jobs:
   bump:
     name: Pull Request Comment
     runs-on: ubuntu-latest
-    steps:
+    steps: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
+        token:
       - uses: sqren/pr-push-action@v1
         with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
           comment: 'please bump'
           command: yarn bump
       - uses: sqren/pr-push-action@v1
         with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
           comment: 'please yoyo'
           command: yarn yolo

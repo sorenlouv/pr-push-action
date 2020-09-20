@@ -1,6 +1,6 @@
 {
   "name": "pr-push-action",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "files": [
     "action.yml",
@@ -25,6 +25,7 @@
     "@actions/exec": "^1.0.4",
     "@actions/github": "^4.0.0",
     "@octokit/rest": "^18.0.6",
-    "@octokit/webhooks": "^7.11.3"
+    "@octokit/webhooks": "^7.11.3",
+    "string-argv": "^0.3.1"
   }
 }

@@ -16,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: sqren/pr-push-action@v1
         with:
-          access_token: ${{ secrets.GITHUB_TOKEN }}
           comment: 'please bump'
           command: yarn bump
 ```

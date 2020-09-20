@@ -2,9 +2,9 @@ import * as core from '@actions/core';
 import { context } from '@actions/github';
 import { EventPayloads } from '@octokit/webhooks';
 import { exec } from '@actions/exec';
+import stringArgv from 'string-argv';
 
 export type Inputs = {
-  accessToken: string;
   comment: string;
   command: string;
 };
@@ -14,7 +14,6 @@ async function init() {
   const { actor } = context;
 
   const inputs: Inputs = {
-    accessToken: core.getInput('access_token', { required: true }),
     comment: core.getInput('comment', { required: true }),
     command: core.getInput('command', { required: true }),
   };
@@ -24,15 +23,19 @@ async function init() {
     return;
   }
 
+  console.log(`"${inputs.comment}" -> "${inputs.command}"`);
+  const [cmd, ...cmdArgs] = stringArgv(inputs.command);
+  console.log({ cmd, cmdArgs });
+
   await exec(`git config --global user.name "${actor}"`);
   await exec(
     `git config --global user.email "github-action-${actor}@users.noreply.github.com"`
   );
 
-  await exec(inputs.command);
-  await exec('git add -u');
-  await exec(`git commit -m "Result of \"${inputs.command}\""`);
-  await exec('git push');
+  await exec(cmd, cmdArgs);
+  await exec('git', ['add', '-u']);
+  await exec('git', ['commit', '-m', `Result of "${inputs.command}"`]);
+  await exec('git', ['push']);
   console.log(JSON.stringify(payload), inputs);
 }
 
