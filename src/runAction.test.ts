@@ -7,12 +7,11 @@ describe('runAction', () => {
   it('assa', async () => {
     const spy = jest.spyOn(exec, 'exec').mockResolvedValue(0);
     const payload = getMockPayload('bump please');
-    const actor = 'sqren';
     const inputs: Inputs = {
       command: 'yarn bump',
       comment: 'bump please',
     };
-    await runAction(payload, actor, inputs);
+    await runAction(payload, inputs);
 
     expect(spy).toHaveBeenCalledTimes(6);
     expect(spy.mock.calls[0][0]).toMatchInlineSnapshot(`"git"`);
@@ -24,6 +23,6 @@ describe('runAction', () => {
       'git',
       ['commit', '-m', 'Result of "yarn bump"'],
     ]);
-    expect(spy.mock.calls[5]).toEqual(['git', ['push']]);
+    expect(spy.mock.calls[5]).toEqual(['git', ['push', 'origin', 'test-pr']]);
   });
 });

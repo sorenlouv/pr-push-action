@@ -9,13 +9,12 @@ export type Inputs = {
 };
 
 const payload = context.payload as EventPayloads.WebhookPayloadIssueComment;
-const { actor } = context;
 const inputs: Inputs = {
   comment: core.getInput('comment', { required: true }),
   command: core.getInput('command', { required: true }),
 };
 
-runAction(payload, actor, inputs).catch((error) => {
+runAction(payload, inputs).catch((error) => {
   console.log('An error occurred', error);
   core.setFailed(error.message);
 });

@@ -1,18 +1,26 @@
 import { EventPayloads } from '@octokit/webhooks';
 import { exec } from '@actions/exec';
 import stringArgv from 'string-argv';
-import { Context } from '@actions/github/lib/context';
 import { Inputs } from '.';
+import { Octokit } from '@octokit/rest';
 
 export async function runAction(
   payload: EventPayloads.WebhookPayloadIssueComment,
-  actor: Context['actor'],
   inputs: Inputs
 ) {
-  if (payload.comment.body !== inputs.comment) {
+  if (payload.comment.body !== inputs.comment.trim()) {
     console.log('Aborting. Not relevant comment');
     return;
   }
+
+  const octokit = new Octokit();
+  const pullRequest = await octokit.pulls.get({
+    owner: payload.repository.owner.login,
+    repo: payload.repository.name,
+    pull_number: payload.issue.number,
+  });
+
+  const branchName = pullRequest.data.head.ref;
 
   console.log(`Received comment: "${inputs.comment}"`);
   const [cmd, ...cmdArgs] = stringArgv(inputs.command);
@@ -23,6 +31,5 @@ export async function runAction(
   await exec(cmd, cmdArgs);
   await exec('git', ['add', '-u']);
   await exec('git', ['commit', '-m', `Result of "${inputs.command}"`]);
-  await exec('git', ['remote', '-v']);
-  // await exec('git', ['push']);
+  await exec('git', ['push', 'origin', branchName]);
 }
