@@ -55,8 +55,28 @@ export async function runAction(
     opts
   );
 
-  await exec('ls', ['-al'], opts);
-  await exec('pwd', [], opts);
+  await exec('ls', ['-al'], {
+    cwd: repoPath,
+    listeners: {
+      stdout: (data: Buffer) => {
+        console.log(data.toString());
+      },
+      stderr: (data: Buffer) => {
+        console.log(data.toString());
+      },
+    },
+  });
+  await exec('pwd', [], {
+    cwd: repoPath,
+    listeners: {
+      stdout: (data: Buffer) => {
+        console.log(data.toString());
+      },
+      stderr: (data: Buffer) => {
+        console.log(data.toString());
+      },
+    },
+  });
 
   await exec(cmd, cmdArgs, opts);
   await exec('git', ['add', '-u']);
