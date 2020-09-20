@@ -28,18 +28,23 @@ export async function runAction(
   const [cmd, ...cmdArgs] = stringArgv(inputs.command);
   console.log('Command: ', { cmd, cmdArgs });
 
-  await exec('git', [
-    'clone',
-    '--depth',
-    '1',
-    '--single-branch',
-    '--branch',
-    branchName,
-    `https://x-access-token:${inputs.accessToken}@github.com/${repoOwner}/${repoName}.git`,
-  ]);
-
   const repoPath = `${process.cwd()}/${repoName}`;
   const opts = { cwd: repoPath };
+
+  await exec(
+    'git',
+    [
+      'clone',
+      '--depth',
+      '1',
+      '--single-branch',
+      '--branch',
+      branchName,
+      `https://x-access-token:${inputs.accessToken}@github.com/${repoOwner}/${repoName}.git`,
+      '.',
+    ],
+    opts
+  );
 
   console.log({ opts });
 

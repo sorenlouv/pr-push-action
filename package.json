@@ -1,6 +1,6 @@
 {
   "name": "pr-push-action",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "license": "MIT",
   "files": [
     "action.yml",
