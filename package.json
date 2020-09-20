@@ -1,6 +1,6 @@
 {
   "name": "pr-push-action",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "MIT",
   "files": [
     "action.yml",
@@ -14,7 +14,9 @@
     "test": "jest"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.14",
     "@vercel/ncc": "^0.24.1",
+    "jest": "^26.4.2",
     "prettier": "^2.1.2",
     "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0",
