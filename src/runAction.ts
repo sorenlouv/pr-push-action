@@ -28,9 +28,6 @@ export async function runAction(
   const [cmd, ...cmdArgs] = stringArgv(inputs.command);
   console.log('Command: ', { cmd, cmdArgs });
 
-  await exec('git', ['config', 'user.name', 'github-actions']);
-  await exec('git', ['config', 'user.email', 'github-actions@github.com']);
-
   await exec('git', [
     'clone',
     '--depth',
@@ -42,6 +39,10 @@ export async function runAction(
   ]);
 
   await exec('cd', [repoName]);
+
+  await exec('git', ['config', 'user.name', 'github-actions']);
+  await exec('git', ['config', 'user.email', 'github-actions@github.com']);
+
   await exec(cmd, cmdArgs);
   await exec('git', ['add', '-u']);
   await exec('git', ['commit', '-m', `Result of "${inputs.command}"`]);
