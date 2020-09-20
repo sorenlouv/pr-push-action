@@ -50,6 +50,9 @@ export async function runAction(
     opts
   );
 
+  await exec('ls', ['-al'], opts);
+  await exec('pwd', [], opts);
+
   await exec(cmd, cmdArgs, opts);
   await exec('git', ['add', '-u']);
   await exec('git', ['commit', '-m', `Result of "${inputs.command}"`], opts);
