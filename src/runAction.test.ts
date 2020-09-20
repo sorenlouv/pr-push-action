@@ -5,9 +5,7 @@ import { Inputs } from '.';
 
 describe('runAction', () => {
   it('assa', async () => {
-    const spy = jest.spyOn(exec, 'exec').mockImplementation((...args) => {
-      console.log('args:', args);
-    });
+    const spy = jest.spyOn(exec, 'exec').mockResolvedValue(0);
     const payload = getMockPayload('bump please');
     const actor = 'sqren';
     const inputs: Inputs = {
@@ -15,8 +13,6 @@ describe('runAction', () => {
       comment: 'bump please',
     };
     await runAction(payload, actor, inputs);
-
-    console.log('start asserting');
 
     expect(spy).toHaveBeenCalledTimes(6);
     expect(spy.mock.calls[0][0]).toMatchInlineSnapshot(`"git"`);

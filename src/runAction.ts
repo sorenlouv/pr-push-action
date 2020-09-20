@@ -14,15 +14,15 @@ export async function runAction(
     return;
   }
 
-  console.log(`"${inputs.comment}" -> "${inputs.command}"`);
+  console.log(`Received comment: "${inputs.comment}"`);
   const [cmd, ...cmdArgs] = stringArgv(inputs.command);
-  console.log({ cmd, cmdArgs });
+  console.log('Command: ', { cmd, cmdArgs });
 
   await exec('git', ['config', 'user.name', 'github-actions']);
   await exec('git', ['config', 'user.email', 'github-actions@github.com']);
   await exec(cmd, cmdArgs);
   await exec('git', ['add', '-u']);
   await exec('git', ['commit', '-m', `Result of "${inputs.command}"`]);
-  await exec('git', ['push']);
-  console.log('finished');
+  await exec('git', ['remote', '-v']);
+  // await exec('git', ['push']);
 }
