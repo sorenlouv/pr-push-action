@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
-        token:
+        token: ${{ secrets.GITHUB_TOKEN }}
       - uses: sqren/pr-push-action@v1
         with:
           comment: 'please bump'
