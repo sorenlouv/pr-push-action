@@ -24,7 +24,7 @@ export async function runAction(
 
   const branchName = pullRequest.data.head.ref;
 
-  console.log(`Received comment: "${inputs.comment}"`);
+  console.log(`Received comment2: "${inputs.comment}"`);
   const [cmd, ...cmdArgs] = stringArgv(inputs.command);
   console.log('Command: ', { cmd, cmdArgs });
 
