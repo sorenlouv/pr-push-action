@@ -41,6 +41,8 @@ export async function runAction(
   const repoPath = `${process.cwd()}/${repoName}`;
   const opts = { cwd: repoPath };
 
+  console.log({ opts });
+
   await exec('git', ['config', 'user.name', 'github-actions'], opts);
   await exec(
     'git',
