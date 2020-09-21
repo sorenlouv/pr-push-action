@@ -33,16 +33,12 @@ export async function runAction(
 
   await exec('ls', ['-al'], opts);
   await exec('pwd', [], opts);
+  await exec('cat', ['package.json'], opts);
 
-  console.log({ opts });
-
-  await exec('git', ['--no-pager', 'branch', '-a'], opts);
-  await exec('git', ['fetch'], opts);
-  await exec('git', ['--no-pager', 'branch', '-a'], opts);
+  await exec('git', ['fetch'], opts); //TODO might not be needed
   await exec('git', ['checkout', 'test-pr'], opts);
-  // await exec(cmd, cmdArgs, opts);
+  await exec(cmd, cmdArgs, opts);
   await exec('yarn', [], opts);
-  await exec('yarn', ['run', 'bump'], opts);
   await exec('git', ['add', '-u'], opts);
   await exec('git', ['commit', '-m', `Result of "${inputs.command}"`], opts);
   await exec('git', ['push', 'origin', branchName], opts);
