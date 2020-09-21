@@ -30,41 +30,26 @@ export async function runAction(
 
   const repoPath = process.env.GITHUB_WORKSPACE;
   const opts = { cwd: repoPath };
-  const listeners = {
-    stdout: (data: Buffer) => {
-      console.log('stdout', data.toString());
-    },
-    stderr: (data: Buffer) => {
-      console.log('stdrr', data.toString());
-    },
-  };
 
-  await exec('ls', ['-al'], { cwd: repoPath, listeners });
-  await exec('pwd', [], { cwd: repoPath, listeners });
+  await exec('ls', ['-al'], opts);
+  await exec('pwd', [], opts);
 
-  await exec(
-    'git',
-    [
-      'clone',
-      '--depth',
-      '1',
-      '--single-branch',
-      '--branch',
-      branchName,
-      `https://x-access-token:${inputs.accessToken}@github.com/${repoOwner}/${repoName}.git`,
-      '.',
-    ],
-    opts
-  );
+  // await exec(
+  //   'git',
+  //   [
+  //     'clone',
+  //     '--depth',
+  //     '1',
+  //     '--single-branch',
+  //     '--branch',
+  //     branchName,
+  //     `https://x-access-token:${inputs.accessToken}@github.com/${repoOwner}/${repoName}.git`,
+  //     '.',
+  //   ],
+  //   opts
+  // );
 
   console.log({ opts });
-
-  await exec('git', ['config', 'user.name', 'github-actions'], opts);
-  await exec(
-    'git',
-    ['config', 'user.email', 'github-actions@github.com'],
-    opts
-  );
 
   // await exec(cmd, cmdArgs, opts);
   await exec('yarn', ['bump'], opts);
