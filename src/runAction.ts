@@ -51,8 +51,12 @@ export async function runAction(
 
   console.log({ opts });
 
-  // await exec(cmd, cmdArgs, opts);
-  await exec('yarn', ['bump'], opts);
+  await exec('git', ['--no-pager', 'branch', '-a'], opts);
+  await exec('git', ['fetch'], opts);
+  await exec('git', ['--no-pager', 'branch', '-a'], opts);
+  await exec('git', ['checkout', 'remotes/origin/test-pr'], opts);
+  await exec(cmd, cmdArgs, opts);
+  // await exec('yarn', ['bump'], opts);
   await exec('git', ['add', '-u'], opts);
   await exec('git', ['commit', '-m', `Result of "${inputs.command}"`], opts);
   await exec('git', ['push', 'origin', branchName], opts);
