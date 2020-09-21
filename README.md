@@ -1,5 +1,7 @@
 # pr-push-action
 
+test1
+
 Run a command on a PR that causes to update. The change is then committed.
 
 Workflow
