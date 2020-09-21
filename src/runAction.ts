@@ -24,7 +24,7 @@ export async function runAction(
 
   const branchName = pullRequest.data.head.ref;
 
-  console.log(`Received comment2: "${inputs.comment}"`);
+  console.log(`Received comment: "${inputs.comment}"`);
   const [cmd, ...cmdArgs] = stringArgv(inputs.command);
   console.log('Command: ', { cmd, cmdArgs });
 
@@ -32,10 +32,10 @@ export async function runAction(
   const opts = { cwd: repoPath };
   const listeners = {
     stdout: (data: Buffer) => {
-      console.log(data.toString());
+      console.log('stdout', data.toString());
     },
     stderr: (data: Buffer) => {
-      console.log(data.toString());
+      console.log('stdrr', data.toString());
     },
   };
 
@@ -66,8 +66,9 @@ export async function runAction(
     opts
   );
 
-  await exec(cmd, cmdArgs, opts);
-  await exec('git', ['add', '-u']);
+  // await exec(cmd, cmdArgs, opts);
+  await exec('yarn', ['bump'], opts);
+  await exec('git', ['add', '-u'], opts);
   await exec('git', ['commit', '-m', `Result of "${inputs.command}"`], opts);
   await exec('git', ['push', 'origin', branchName], opts);
 }
