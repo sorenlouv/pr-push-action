@@ -34,21 +34,6 @@ export async function runAction(
   await exec('ls', ['-al'], opts);
   await exec('pwd', [], opts);
 
-  // await exec(
-  //   'git',
-  //   [
-  //     'clone',
-  //     '--depth',
-  //     '1',
-  //     '--single-branch',
-  //     '--branch',
-  //     branchName,
-  //     `https://x-access-token:${inputs.accessToken}@github.com/${repoOwner}/${repoName}.git`,
-  //     '.',
-  //   ],
-  //   opts
-  // );
-
   console.log({ opts });
 
   await exec('git', ['--no-pager', 'branch', '-a'], opts);
@@ -56,6 +41,7 @@ export async function runAction(
   await exec('git', ['--no-pager', 'branch', '-a'], opts);
   await exec('git', ['checkout', 'test-pr'], opts);
   // await exec(cmd, cmdArgs, opts);
+  await exec('yarn', [], opts);
   await exec('yarn', ['run', 'bump'], opts);
   await exec('git', ['add', '-u'], opts);
   await exec('git', ['commit', '-m', `Result of "${inputs.command}"`], opts);
